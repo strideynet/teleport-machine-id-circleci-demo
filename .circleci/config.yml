@@ -20,8 +20,8 @@ jobs:
               --auth-server=root.tele.ottr.sh:443 \
               --join-method=circleci --token=circleci-bot \
               --oneshot \
-              --destination-dir=./certs \
-              --data-dir=./data
+              --destination-dir=/opt/certs \
+              --data-dir=/tmp/tbot-data
             tsh \
               -i ./certs/identity \
               --proxy root.tele.ottr.sh:443 \
