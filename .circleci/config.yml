@@ -7,15 +7,26 @@ jobs:
     steps:
       - checkout
       - run:
-          name: "teleport"
+          name: "Install Teleport"
           command: |
+            cd tmp/
             curl -O https://cdn.teleport.dev/teleport-v11.2.0-linux-amd64-bin.tar.gz
             tar -xvf teleport-v11.2.0-linux-amd64-bin.tar.gz
-            cd ./teleport
-            sudo ./install
-            cd ../
-            tbot start --auth-server=root.tele.ottr.sh:443 --join-method=circleci --token=circleci-bot --oneshot --destination-dir=./certs --data-dir=./data
-            tsh -i ./certs/identity --proxy root.tele.ottr.sh:443 ssh noahstride@noah-laptop "echo $CIRCLE_BUILD_URL >> ~/circle_run_log_demo"
+            sudo ./teleport/install
+      - run:
+          name: "Use Machine ID to access Teleport Node"
+          command: |
+            tbot start \
+              --auth-server=root.tele.ottr.sh:443 \
+              --join-method=circleci --token=circleci-bot \
+              --oneshot \
+              --destination-dir=./certs \
+              --data-dir=./data
+            tsh \
+              -i ./certs/identity \
+              --proxy root.tele.ottr.sh:443 \
+              ssh noahstride@noah-laptop \
+              "echo $CIRCLE_BUILD_URL >> ~/circle_run_log_demo"
 workflows:
   teleport-workflow:
     jobs:
