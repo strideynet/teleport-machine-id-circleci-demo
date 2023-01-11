@@ -1,0 +1,17 @@
+# See: https://circleci.com/docs/2.0/configuration-reference
+version: 2.1
+jobs:
+  teleport:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - run:
+          name: "teleport"
+          command: |
+            tbot start --auth-server=root.tele.ottr.sh:443 --join-method=circleci --token=circleci-bot --oneshot --destination-dir=./certs --data-dir=./data
+            tsh -i ./certs/identity --proxy root.tele.ottr.sh:443 ssh noahstride@noah-laptop "echo $CIRCLE_BUILD_URL >> ~/circle_run_log_demo"
+workflows:
+  teleport-workflow:
+    jobs:
+      - teleport
