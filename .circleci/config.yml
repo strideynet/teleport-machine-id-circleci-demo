@@ -9,7 +9,7 @@ jobs:
       - run:
           name: "Install Teleport"
           command: |
-            cd tmp/
+            cd /tmp
             curl -O https://cdn.teleport.dev/teleport-v11.2.0-linux-amd64-bin.tar.gz
             tar -xvf teleport-v11.2.0-linux-amd64-bin.tar.gz
             sudo ./teleport/install
