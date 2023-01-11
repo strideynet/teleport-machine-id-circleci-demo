@@ -19,4 +19,6 @@ jobs:
 workflows:
   teleport-workflow:
     jobs:
-      - teleport
+      - teleport:
+          context:
+            - test-context
